@@ -3,15 +3,17 @@ package core.basesyntax.model;
 import java.util.Arrays;
 
 public enum Operation {
-
     BALANCE("b"),
     SUPPLY("s"),
     PURCHASE("p"),
     RETURN("r");
 
-    private String type;
+    private final String type;
 
     Operation(String type) {
+        if (type == null || type.isBlank()) {
+            throw new IllegalArgumentException("Operation type is null or empty");
+        }
         this.type = type;
     }
 
@@ -23,7 +25,8 @@ public enum Operation {
         return Arrays.stream(Operation.values())
                 .filter(operation -> operation.getType().equalsIgnoreCase(type))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("error : element not found."));
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Unknown operation type: " + type));
     }
 }
 

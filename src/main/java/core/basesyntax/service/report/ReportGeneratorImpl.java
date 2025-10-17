@@ -1,5 +1,6 @@
 package core.basesyntax.service.report;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -7,7 +8,10 @@ public class ReportGeneratorImpl implements ReportGenerator {
     private final Map<String, Integer> map;
 
     public ReportGeneratorImpl(Map<String, Integer> map) {
-        this.map = map;
+        if (map == null) {
+            throw new RuntimeException("Error: ReportGenerator map must not be null");
+        }
+        this.map = new LinkedHashMap<>(map);
     }
 
     @Override

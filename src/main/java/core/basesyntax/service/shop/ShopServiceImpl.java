@@ -8,6 +8,9 @@ public class ShopServiceImpl implements ShopService {
     private final FruitTransactionStrategy fruitTransactionStrategy;
 
     public ShopServiceImpl(FruitTransactionStrategy fruitTransactionStrategy) {
+        if (fruitTransactionStrategy == null) {
+            throw new RuntimeException("FruitTransactionStrategy must not be null");
+        }
         this.fruitTransactionStrategy = fruitTransactionStrategy;
     }
 

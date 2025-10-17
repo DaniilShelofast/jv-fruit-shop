@@ -7,11 +7,25 @@ public class SupplyFruitTransactionHandler implements FruitTransactionHandler {
     private final Storage storage;
 
     public SupplyFruitTransactionHandler(Storage storage) {
+        if (storage == null) {
+            throw new RuntimeException("Storage must not be null");
+        }
         this.storage = storage;
     }
 
     @Override
     public void handler(FruitTransaction fruitTransaction) {
-        storage.add(fruitTransaction.getFruit(), fruitTransaction.getQuantity());
+        if (fruitTransaction == null) {
+            throw new RuntimeException("FruitTransaction cannot be null");
+        }
+        String fruit = fruitTransaction.getFruit();
+        if (fruit == null || fruit.isBlank()) {
+            throw new RuntimeException("Fruit name cannot be null or blank");
+        }
+        int quantity = fruitTransaction.getQuantity();
+        if (quantity < 0) {
+            throw new RuntimeException("Quantity cannot be negative");
+        }
+        storage.add(fruit, quantity);
     }
 }

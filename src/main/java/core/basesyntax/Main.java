@@ -34,7 +34,7 @@ public class Main {
 
         // 1. Read the data from the input CSV file
         ReadFileFruit fileReader = new ReadFileFruitImpl();
-        List<String> inputReport = fileReader.readAll("reportToRead.csv");
+        List<String> inputReport = fileReader.readAll("src\\main\\java\\reportToRead.csv");
 
         // 2. Convert the incoming data into FruitTransactions list
         DataConverter dataConverter = new DataConverterImpl();
@@ -58,6 +58,6 @@ public class Main {
 
         // 6. Write the received report into the destination file
         WriteFileFruit fileWriter = new WriteFileFruitImpl();
-        fileWriter.writeAll(resultingReport, "finalReport.csv");
+        fileWriter.writeAll(resultingReport, "src\\main\\java\\finalReport.csv");
     }
 }
