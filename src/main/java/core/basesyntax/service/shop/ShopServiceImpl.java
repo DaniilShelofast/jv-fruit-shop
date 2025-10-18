@@ -16,8 +16,18 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void process(List<FruitTransaction> fruitTransactions) {
+        if (fruitTransactions == null) {
+            throw new RuntimeException("Parameters should not be null");
+        }
+        if (fruitTransactions.isEmpty()) {
+            throw new RuntimeException("Parameters should not be empty");
+        }
         for (FruitTransaction f : fruitTransactions) {
-            fruitTransactionStrategy.get(f.getOperation()).handler(f);
+            if (f != null) {
+                fruitTransactionStrategy.get(f.getOperation()).handler(f);
+            } else {
+                throw new RuntimeException("Element should not be null");
+            }
         }
     }
 }

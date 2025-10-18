@@ -1,5 +1,6 @@
 package core.basesyntax.db;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StorageImpl implements Storage {
@@ -9,13 +10,13 @@ public class StorageImpl implements Storage {
         if (map == null) {
             throw new RuntimeException("Map must not be null");
         }
-        this.map = map;
+        this.map = new LinkedHashMap<>(map);
     }
 
     @Override
     public int getFruit(String fruit) {
         if (fruit == null || fruit.isBlank()) {
-            throw new IllegalArgumentException(fruit + " must be non-null and non-empty");
+            throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
         return map.getOrDefault(fruit, 0);
     }
@@ -53,8 +54,11 @@ public class StorageImpl implements Storage {
         }
         int findFruit = getFruit(fruit);
         if (quantity > findFruit) {
-            throw new RuntimeException("Can't delete " + quantity + " of "
-                    + fruit + " only " + getFruit(fruit) + " in stock");
+            throw new RuntimeException("Can't delete "
+                    +
+                    quantity + " of " + fruit + ": requested="
+                    +
+                    quantity + ", available=" + findFruit);
         }
         int value = findFruit - quantity;
         map.put(fruit, value);
