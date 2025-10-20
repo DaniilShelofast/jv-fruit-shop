@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StorageImpl implements Storage {
+    private static final int ZERO = 0;
     private final Map<String, Integer> map;
 
     public StorageImpl(Map<String, Integer> map) {
@@ -18,7 +19,7 @@ public class StorageImpl implements Storage {
         if (fruit == null || fruit.isBlank()) {
             throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
-        return map.getOrDefault(fruit, 0);
+        return map.getOrDefault(fruit, ZERO);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class StorageImpl implements Storage {
         if (fruit == null || fruit.isBlank()) {
             throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
-        if (quantity < 0) {
+        if (quantity < ZERO) {
             throw new IllegalArgumentException("Quantity must be non-negative");
         }
         int newValue = getFruit(fruit) + quantity;
@@ -38,7 +39,7 @@ public class StorageImpl implements Storage {
         if (fruit == null || fruit.isBlank()) {
             throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
-        if (quantity < 0) {
+        if (quantity < ZERO) {
             throw new IllegalArgumentException("Quantity must be non-negative");
         }
         map.put(fruit, quantity);
@@ -49,7 +50,7 @@ public class StorageImpl implements Storage {
         if (fruit == null || fruit.isBlank()) {
             throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
-        if (quantity < 0) {
+        if (quantity < ZERO) {
             throw new IllegalArgumentException("Quantity must be non-negative");
         }
         int findFruit = getFruit(fruit);

@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DataConverterImpl implements DataConverter {
+    private static final int LIMIT = -1;
     private static final String SPLIT = ",";
     private static final int INDEX_OPERATION_TYPE = 0;
+    private static final int ZERO_VALUE = 0;
     private static final int INDEX_FRUIT = 1;
+    private static final int HEAD_FILE = 1;
     private static final int INDEX_NUMBER = 2;
     private static final int ARRAYS_LENGTH = 3;
     private static final String TITLE_FILE = "type,fruit,quantity";
@@ -28,7 +31,7 @@ public class DataConverterImpl implements DataConverter {
             throw new RuntimeException("File header does not match the desired format.");
         }
         return line.stream()
-                .skip(1)
+                .skip(HEAD_FILE)
                 .map(this::lineSplit)
                 .filter(strings -> {
                     if (strings.length != ARRAYS_LENGTH) {
@@ -45,7 +48,7 @@ public class DataConverterImpl implements DataConverter {
     }
 
     private String[] lineSplit(String line) {
-        return Arrays.stream(line.split(SPLIT, -1))
+        return Arrays.stream(line.split(SPLIT, LIMIT))
                 .map(String::trim)
                 .toArray(String[]::new);
     }
@@ -67,7 +70,7 @@ public class DataConverterImpl implements DataConverter {
         } catch (RuntimeException e) {
             throw new RuntimeException("Incorrect number format: " + number, e);
         }
-        if (value < 0) {
+        if (value < ZERO_VALUE) {
             throw new RuntimeException("Error number should not be negative");
         }
         return value;

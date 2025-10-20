@@ -4,6 +4,7 @@ import core.basesyntax.db.Storage;
 import core.basesyntax.model.FruitTransaction;
 
 public class ReturnFruitTransactionHandler implements FruitTransactionHandler {
+    private static final int ZERO = 0;
     private final Storage storage;
 
     public ReturnFruitTransactionHandler(Storage storage) {
@@ -23,7 +24,7 @@ public class ReturnFruitTransactionHandler implements FruitTransactionHandler {
             throw new RuntimeException("Fruit name cannot be null or blank");
         }
         int quantity = fruitTransaction.getQuantity();
-        if (quantity < 0) {
+        if (quantity < ZERO) {
             throw new RuntimeException("Quantity cannot be negative");
         }
         storage.add(fruit, quantity);

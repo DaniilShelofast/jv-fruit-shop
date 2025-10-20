@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+    private static final String FROM_FILE_CSV = "src/main/resources/reportToRead.csv";
+    private static final String TO_FILE_CSV = "src/main/resources/finalReport.csv";
+
     public static void main(String[] arg) {
 
         Map<String, Integer> map = new LinkedHashMap<>();
@@ -34,7 +37,7 @@ public class Main {
 
         // 1. Read the data from the input CSV file
         ReadFileFruit fileReader = new ReadFileFruitImpl();
-        List<String> inputReport = fileReader.readAll("src/main/resources/reportToRead.csv");
+        List<String> inputReport = fileReader.readAll(FROM_FILE_CSV);
 
         // 2. Convert the incoming data into FruitTransactions list
         DataConverter dataConverter = new DataConverterImpl();
@@ -58,6 +61,6 @@ public class Main {
 
         // 6. Write the received report into the destination file
         WriteFileFruit fileWriter = new WriteFileFruitImpl();
-        fileWriter.writeAll(resultingReport, "src/main/resources/finalReport.csv");
+        fileWriter.writeAll(resultingReport, TO_FILE_CSV);
     }
 }
