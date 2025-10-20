@@ -17,16 +17,28 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void process(List<FruitTransaction> fruitTransactions) {
         if (fruitTransactions == null) {
-            throw new RuntimeException("Parameters should not be null");
+            throw new RuntimeException("Transactions list must not be null");
         }
         if (fruitTransactions.isEmpty()) {
-            throw new RuntimeException("Parameters should not be empty");
+            throw new RuntimeException("Transactions list must not be empty");
         }
         for (FruitTransaction f : fruitTransactions) {
-            if (f != null) {
+            if (f.getOperation() != null && !f.getFruit().isBlank() && f.getQuantity() >= 0) {
                 fruitTransactionStrategy.get(f.getOperation()).handler(f);
             } else {
-                throw new RuntimeException("Element should not be null");
+                throw new RuntimeException(
+                        "Incorrect entry in CSV: "
+                                +
+                                "operation=" + f.getOperation()
+                                +
+                                ", "
+                                +
+                                "fruit=" + f.getFruit()
+                                +
+                                ", "
+                                +
+                                "quantity=" + f.getQuantity()
+                );
             }
         }
     }

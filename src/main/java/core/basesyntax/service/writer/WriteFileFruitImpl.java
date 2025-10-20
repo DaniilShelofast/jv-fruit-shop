@@ -6,17 +6,17 @@ import java.io.IOException;
 
 public class WriteFileFruitImpl implements WriteFileFruit {
     @Override
-    public void writeAll(String string, String path) {
-        if (string == null || string.isBlank()) {
-            throw new RuntimeException("Output content must not be null");
+    public void writeAll(String content, String filePath) {
+        if (content == null || content.isBlank()) {
+            throw new RuntimeException("Output content must not be null or blank");
         }
-        if (path == null || path.isBlank()) {
-            throw new RuntimeException("Path file must not be null");
+        if (filePath == null || filePath.isBlank()) {
+            throw new RuntimeException("Output file path must not be null or blank");
         }
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))) {
-            bufferedWriter.write(string);
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))) {
+            bufferedWriter.write(content);
         } catch (IOException e) {
-            throw new RuntimeException("Can't write file: " + path, e);
+            throw new RuntimeException("Can't write file: " + filePath, e);
         }
     }
 }

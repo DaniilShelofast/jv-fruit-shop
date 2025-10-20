@@ -53,7 +53,7 @@ public class Main {
         shopService.process(transactions);
 
         // 5.Generate report based on the current Storage state
-        ReportGenerator reportGenerator = new ReportGeneratorImpl(map);
+        ReportGenerator reportGenerator = new ReportGeneratorImpl(storage);
         String resultingReport = reportGenerator.getReport();
 
         // 6. Write the received report into the destination file

@@ -21,7 +21,7 @@ public class FruitTransactionStrategyImpl implements FruitTransactionStrategy {
         }
         FruitTransactionHandler fruitTransactionHandler = map.get(type);
         if (fruitTransactionHandler == null) {
-            throw new RuntimeException("For the operation " + type + "no handler is registered.");
+            throw new RuntimeException("No handler registered for operation: " + type);
         }
         return fruitTransactionHandler;
     }

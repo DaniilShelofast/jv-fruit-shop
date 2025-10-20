@@ -8,44 +8,44 @@ import java.util.stream.Collectors;
 
 public class DataConverterImpl implements DataConverter {
     private static final String SPLIT = ",";
-    private static final int INDEX_TYPE = 0;
+    private static final int INDEX_OPERATION_TYPE = 0;
     private static final int INDEX_FRUIT = 1;
     private static final int INDEX_NUMBER = 2;
     private static final int ARRAYS_LENGTH = 3;
+    private static final String TITLE_FILE = "type,fruit,quantity";
 
     @Override
     public List<FruitTransaction> convertAll(List<String> line) {
         if (line == null) {
-            throw new RuntimeException("Can`t list must not be null");
+            throw new RuntimeException("Input lines list must not be null.");
         }
         if (line.isEmpty()) {
-            throw new RuntimeException("Can`t list must not be empty");
+            throw new RuntimeException("Input lines list must "
+                    +
+                    "not be empty (no CSV lines to process)");
+        }
+        if (!line.get(INDEX_OPERATION_TYPE).equals(TITLE_FILE)) {
+            throw new RuntimeException("File header does not match the desired format.");
         }
         return line.stream()
                 .skip(1)
                 .map(this::lineSplit)
                 .filter(strings -> {
                     if (strings.length != ARRAYS_LENGTH) {
-                        throw new RuntimeException(
-                                "Incorrect CSV format: 3 columns expected "
-                                        +
-                                        "(type, fruit, quantity), but received "
-                                        +
-                                        strings.length + ". Error string : "
-                                        +
-                                        String.join(",", strings)
-                        );
+                        throw new RuntimeException("This number of tokens "
+                                +
+                                "does not correspond to the correct result");
                     }
                     return true;
                 })
                 .map(f -> new FruitTransaction(
-                        Operation.getOperationType(f[INDEX_TYPE].toLowerCase()),
-                        validateEmptyAndNull(f[INDEX_FRUIT]), validateNumber(f[2])))
+                        Operation.getOperationType(f[INDEX_OPERATION_TYPE].toLowerCase()),
+                        validateEmptyAndNull(f[INDEX_FRUIT]), validateNumber(f[INDEX_NUMBER])))
                 .collect(Collectors.toList());
     }
 
     private String[] lineSplit(String line) {
-        return Arrays.stream(line.split(SPLIT))
+        return Arrays.stream(line.split(SPLIT, -1))
                 .map(String::trim)
                 .toArray(String[]::new);
     }

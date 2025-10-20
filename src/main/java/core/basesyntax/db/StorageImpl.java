@@ -24,10 +24,10 @@ public class StorageImpl implements Storage {
     @Override
     public void add(String fruit, int quantity) {
         if (fruit == null || fruit.isBlank()) {
-            throw new IllegalArgumentException(fruit + " must be non-null and non-empty");
+            throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
         if (quantity < 0) {
-            throw new IllegalArgumentException(quantity + " must be non-negative");
+            throw new IllegalArgumentException("Quantity must be non-negative");
         }
         int newValue = getFruit(fruit) + quantity;
         map.put(fruit, newValue);
@@ -36,10 +36,10 @@ public class StorageImpl implements Storage {
     @Override
     public void set(String fruit, int quantity) {
         if (fruit == null || fruit.isBlank()) {
-            throw new IllegalArgumentException(fruit + " must be non-null and non-empty");
+            throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
         if (quantity < 0) {
-            throw new IllegalArgumentException(quantity + " must be non-negative");
+            throw new IllegalArgumentException("Quantity must be non-negative");
         }
         map.put(fruit, quantity);
     }
@@ -47,20 +47,22 @@ public class StorageImpl implements Storage {
     @Override
     public void delete(String fruit, int quantity) {
         if (fruit == null || fruit.isBlank()) {
-            throw new IllegalArgumentException(fruit + " must be non-null and non-empty");
+            throw new IllegalArgumentException("Fruit name must be non-null and non-blank");
         }
         if (quantity < 0) {
-            throw new IllegalArgumentException(quantity + " must be non-negative");
+            throw new IllegalArgumentException("Quantity must be non-negative");
         }
         int findFruit = getFruit(fruit);
         if (quantity > findFruit) {
-            throw new RuntimeException("Can't delete "
+            throw new RuntimeException("Insufficient stock for '"
                     +
-                    quantity + " of " + fruit + ": requested="
-                    +
-                    quantity + ", available=" + findFruit);
+                    fruit + "': requested=" + quantity + ", available=" + findFruit);
         }
         int value = findFruit - quantity;
         map.put(fruit, value);
+    }
+
+    public Map<String, Integer> getSnapshot() {
+        return new LinkedHashMap<>(map);
     }
 }

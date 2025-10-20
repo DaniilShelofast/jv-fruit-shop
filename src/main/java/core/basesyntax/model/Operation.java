@@ -26,7 +26,9 @@ public enum Operation {
                 .filter(operation -> operation.getType().equalsIgnoreCase(type))
                 .findFirst()
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Unknown operation type: " + type));
+                        new IllegalArgumentException("Unknown operation type: "
+                                +
+                                type + " . Expected one of: b, s, p, r"));
     }
 }
 
