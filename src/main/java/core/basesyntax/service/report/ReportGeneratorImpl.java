@@ -19,6 +19,6 @@ public class ReportGeneratorImpl implements ReportGenerator {
         Map<String, Integer> map = storage.getSnapshot();
         return map.entrySet().stream()
                 .map(fr -> fr.getKey() + "," + fr.getValue())
-                .collect(Collectors.joining("\n", "fruit,quantity\n", ""));
+                .collect(Collectors.joining(System.lineSeparator(), "fruit,quantity\n", ""));
     }
 }

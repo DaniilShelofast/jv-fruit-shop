@@ -31,18 +31,11 @@ public class Main {
     private static final String TO_FILE_CSV = "src/main/resources/finalReport.csv";
 
     public static void main(String[] arg) {
-
         Map<String, Integer> map = new LinkedHashMap<>();
         Storage storage = new StorageImpl(map);
-
-        // 1. Read the data from the input CSV file
         ReadFileFruit fileReader = new ReadFileFruitImpl();
         List<String> inputReport = fileReader.readAll(FROM_FILE_CSV);
-
-        // 2. Convert the incoming data into FruitTransactions list
         DataConverter dataConverter = new DataConverterImpl();
-
-        // 3. Create and feel the map with all OperationHandler implementations
         Map<Operation, FruitTransactionHandler> operationHandlers = new HashMap<>();
         operationHandlers.put(Operation.BALANCE, new BalanceFruitTransactionHandler(storage));
         operationHandlers.put(Operation.PURCHASE, new PurchaseFruitTransactionHandler(storage));
@@ -51,15 +44,10 @@ public class Main {
         FruitTransactionStrategy operationStrategy
                 = new FruitTransactionStrategyImpl(operationHandlers);
         List<FruitTransaction> transactions = dataConverter.convertAll(inputReport);
-        // 4. Process the incoming transactions with applicable OperationHandler implementations
         ShopService shopService = new ShopServiceImpl(operationStrategy);
         shopService.process(transactions);
-
-        // 5.Generate report based on the current Storage state
         ReportGenerator reportGenerator = new ReportGeneratorImpl(storage);
         String resultingReport = reportGenerator.getReport();
-
-        // 6. Write the received report into the destination file
         WriteFileFruit fileWriter = new WriteFileFruitImpl();
         fileWriter.writeAll(resultingReport, TO_FILE_CSV);
     }
