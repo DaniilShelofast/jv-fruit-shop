@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ReportGeneratorImpl implements ReportGenerator {
+    private static final String COMMA = ",";
+    private static final String HEAD_TITLE = "fruit,quantity";
     private final Storage storage;
 
     public ReportGeneratorImpl(Storage storage) {
@@ -18,7 +20,8 @@ public class ReportGeneratorImpl implements ReportGenerator {
     public String getReport() {
         Map<String, Integer> map = storage.getSnapshot();
         return map.entrySet().stream()
-                .map(fr -> fr.getKey() + "," + fr.getValue())
-                .collect(Collectors.joining(System.lineSeparator(), "fruit,quantity\n", ""));
+                .map(fr -> fr.getKey() + COMMA + fr.getValue())
+                .collect(Collectors.joining(System.lineSeparator(),
+                        HEAD_TITLE + System.lineSeparator(), ""));
     }
 }
